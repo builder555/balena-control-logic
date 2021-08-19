@@ -46,9 +46,9 @@ class MQTTLogic:
         self.__client.publish(self.__topic, payload=json.dumps(self.output()))
 
 if __name__=='__main__':
-    inputs = os.environ.get('inputs','').split(',')
-    output = os.environ.get('output')
-    gate = os.environ.get('gate')
+    inputs = os.environ.get('inputs','in1,in2').strip().split(',')
+    output = os.environ.get('output','output')
+    gate = os.environ.get('gate','or')
     logic_gate = MQTTLogic(*inputs)
     logic_gate.set_output(topic=output, method=gate)
     while True:

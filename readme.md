@@ -1,8 +1,8 @@
-### Balena Blocks: logic
+### Balena Blocks: binary logic
 
 Subscribes to topics as inputs and provides a single output based on the specified logic gate
 
-_Usage a block_
+___Usage a block___
 
 Add the following to your `docker-compose.yaml`:
 
@@ -15,14 +15,27 @@ Add the following to your `docker-compose.yaml`:
       - output=logic_1
       - gate=or
 ```
+___Available variables___
+- `inputs`: list of topics to subscribe to
+- `output`: topic, under which to publish the output
+- `gate`: logic to perform on the inputs
 
-_Available gates_
+> ___N.B.___ list of topics must not have spaces!
+
+___Available gates___
 
 - 'and'
 - 'or'
-- 'nor' (also used as 'not' gate)
+- 'nor'
+- 'not' (when the input is single)
 
-_Tests_
+___Environment variables defaults___
+
+- `inputs`: in1,in2
+- `output`: output
+- `gate`: or
+
+___Tests___
 
 ```bash
 $ PIPENV_VENV_IN_PROJECT=1 pipenv install --dev
@@ -30,9 +43,7 @@ $ pipenv shell
 $ pytest -vs
 ```
 
-_Standalone usage_
-
-Publish MQTT message when specified pin is activated/deactivated.
+___Standalone usage___
 
 Given the code
 ```python
@@ -43,3 +54,5 @@ Given the code
 >>>     sleep(0.1)
 ```
 A message with payload '1' will be published under topic 'output' when all 3 topics (input1, 2, 3) receive message with payload '1'. Every time a message comes in, the output will be published, based on the current state.
+
+> N.B. mqtt connects to host 'mqtt' on port 1883
