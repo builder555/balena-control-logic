@@ -11,14 +11,14 @@ Add the following to your `docker-compose.yaml`:
     build: ./control-logic
     restart: always
     environment: 
-      - inputs=sensor_1,button_1
-      - output=logic_1
-      - gate=or
+      - INPUTS=sensor_1,button_1
+      - OUTPUT=logic_1
+      - GATE=or
 ```
 ___Available variables___
-- `inputs`: list of topics to subscribe to
-- `output`: topic, under which to publish the output
-- `gate`: logic to perform on the inputs
+- `INPUTS`: list of topics to subscribe to
+- `OUTPUT`: topic, under which to publish the output
+- `GATE`: logic to perform on the inputs
 
 > ___N.B.___ list of topics must not have spaces!
 
@@ -31,9 +31,9 @@ ___Available gates___
 
 ___Environment variables defaults___
 
-- `inputs`: in1,in2
-- `output`: output
-- `gate`: or
+- `INPUTS`: in1,in2
+- `OUTPUT`: output
+- `GATE`: or
 
 ___Tests___
 

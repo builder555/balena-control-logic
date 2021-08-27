@@ -6,7 +6,7 @@ import os
 class MQTTLogic:
 
     def __init__(self, *inputs):
-        self.__inputs = inputs
+        self.__input_topics = inputs
         self.__client = mqtt.Client()
         self.__client.on_message = self.__on_message
         self.__client.on_connect = self.__on_connect
@@ -31,7 +31,7 @@ class MQTTLogic:
         return int(any(self.__input_values.values()))
 
     def __nor(self):
-        return int(not any(self.__input_values.values()))
+        return int(not self.__or())
 
     def __on_message(self, client, userdata, msg):
         if msg.topic in self.__input_values:
@@ -39,16 +39,16 @@ class MQTTLogic:
             self.__publish_output()
 
     def __on_connect(self, *a, **kw):
-        sub_to = list(zip(self.__inputs, [1]*len(self.__inputs)))
+        sub_to = list(zip(self.__input_topics, [1]*len(self.__input_topics)))
         self.__client.subscribe(sub_to)
 
     def __publish_output(self):
         self.__client.publish(self.__topic, payload=json.dumps(self.output()))
 
 if __name__=='__main__':
-    inputs = os.environ.get('inputs','in1,in2').strip().split(',')
-    output = os.environ.get('output','output')
-    gate = os.environ.get('gate','or')
+    inputs = os.environ.get('INPUTS','in1,in2').strip().split(',')
+    output = os.environ.get('OUTPUT','output')
+    gate = os.environ.get('GATE','or')
     logic_gate = MQTTLogic(*inputs)
     logic_gate.set_output(topic=output, method=gate)
     while True:
