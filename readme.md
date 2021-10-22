@@ -56,3 +56,5 @@ Given the code
 A message with payload '1' will be published under topic 'output' when all 3 topics (input1, 2, 3) receive message with payload '1'. Every time a message comes in, the output will be published, based on the current state.
 
 > N.B. mqtt connects to host 'mqtt' on port 1883
+
+_logo image by [wireform](https://thenounproject.com/wireform/)_
